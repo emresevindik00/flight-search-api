@@ -23,11 +23,11 @@ public class Flight {
     @Column(name = "id")
     private long id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "leaving_from", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_leaving_id"))
     private Airport leavingFrom;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "going_to", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_going_id"))
     private Airport goingTo;
 
