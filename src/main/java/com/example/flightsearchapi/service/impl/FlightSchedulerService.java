@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -15,7 +16,8 @@ import java.util.Date;
 @Slf4j
 public class FlightSchedulerService {
 
-    public FlightService flightService;
+    private final FlightService flightService;
+    private final String mockUrl = "http://localhost:8080/api/flights";
 
     @Autowired
     public FlightSchedulerService(FlightService flightService) {
@@ -25,6 +27,7 @@ public class FlightSchedulerService {
     @Scheduled(cron = "0 0 0 * * *")
     public void getDataAndSaveFlight() {
         Flight flight = new Flight();
+        RestTemplate restTemplate = new RestTemplate();
 
         Date returnDate = new Date();
         Calendar c = Calendar.getInstance();
@@ -40,7 +43,10 @@ public class FlightSchedulerService {
         flight.setReturnDate(returnDate);
         flight.setLeavingFrom(leavingFrom);
         flight.setGoingTo(goingTo);
-        flightService.saveFlight(flight);
+
+        restTemplate.postForObject(mockUrl, Flight.class, Flight.class);
+
+
         log.info("Get Data and Save " + flight.getId());
     }
 }

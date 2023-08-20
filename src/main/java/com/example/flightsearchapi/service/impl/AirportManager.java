@@ -32,13 +32,15 @@ public class AirportManager implements AirportService {
 
     @Override
     public Optional<Airport> findAirportById(Long id) {
-        return Optional.ofNullable(airportRepository.findById(id).orElseThrow(() -> new RuntimeException("bulunamadı")));
+        return Optional.ofNullable(airportRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(id + "'ye sahip havalimanı bulunamadı."))
+        );
     }
 
     @Override
     public void deleteAirportById(Long id) {
         if (!airportRepository.existsById(id)) {
-            new RuntimeException("bulunamadı");
+            new RuntimeException(id + "'ye sahip havalimanı bulunamadı.");
         }
 
         airportRepository.deleteById(id);

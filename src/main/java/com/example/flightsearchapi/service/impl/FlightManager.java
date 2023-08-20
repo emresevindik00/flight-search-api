@@ -31,20 +31,22 @@ public class FlightManager implements FlightService{
     @Override
     public Flight saveFlight(Flight flight) {
         if (flightRepository.existsById(flight.getId())) {
-            throw new RuntimeException("Bu uçuş bulunmaktadır!");
+            throw new RuntimeException(flight.getId() + "'ye sahip uçuş bulunmaktadır.");
         }
         return flightRepository.save(flight);
     }
 
     @Override
     public Optional<Flight> findFlightById(Long id) {
-        return Optional.ofNullable(flightRepository.findById(id).orElseThrow(() -> new RuntimeException("Bulunamadı")));
+        return Optional.ofNullable(flightRepository.findById(id).orElseThrow(
+                () -> new RuntimeException(id + "'ye sahip uçuş bulunamadı."))
+        );
     }
 
     @Override
     public void deleteFlightById(Long id) {
         if (!flightRepository.existsById(id)) {
-            new RuntimeException("Bulunamadı");
+            new RuntimeException(id + "'ye sahip uçuş bulunamadı.");
         }
         flightRepository.deleteById(id);
     }
@@ -53,7 +55,6 @@ public class FlightManager implements FlightService{
     public List<Flight> twoWayFlights(String goingTo, String leavingFrom, Date returnDate, Date departureDate) {
 
         if (returnDate == null) {
-            log.info("Going Date null"+" "+ leavingFrom+" "+ goingTo);
             return flightRepository.leavingFlights(goingTo, leavingFrom, departureDate);
         }
         return flightRepository.ornek(goingTo, leavingFrom, returnDate, departureDate);
