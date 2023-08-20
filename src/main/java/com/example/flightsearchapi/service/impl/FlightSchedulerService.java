@@ -19,17 +19,18 @@ import java.util.Date;
 public class FlightSchedulerService {
 
     private final FlightService flightService;
+    private final RestTemplate restTemplate;
     private final String mockUrl = "http://localhost:8080/api/flights";
 
     @Autowired
-    public FlightSchedulerService(FlightService flightService) {
+    public FlightSchedulerService(FlightService flightService, RestTemplate restTemplate) {
         this.flightService = flightService;
+        this.restTemplate = restTemplate;
     }
 
     @Scheduled(cron = "0 0 0 * * *")
     public void getDataAndSaveFlight() {
         Flight flight = new Flight();
-        RestTemplate restTemplate = new RestTemplate();
 
         Date returnDate = new Date();
         Calendar c = Calendar.getInstance();
