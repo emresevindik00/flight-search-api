@@ -5,6 +5,8 @@ import com.example.flightsearchapi.entity.Flight;
 import com.example.flightsearchapi.service.FlightService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -44,7 +46,17 @@ public class FlightSchedulerService {
         flight.setLeavingFrom(leavingFrom);
         flight.setGoingTo(goingTo);
 
-        restTemplate.postForObject(mockUrl, Flight.class, Flight.class);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Access-Control-Allow-Origin","*");
+        responseHeaders.set("Access-Control-Allow-Credentials", "true");
+        responseHeaders.set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        responseHeaders.set("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+        responseHeaders.set("Autharization", "Bearer " +
+                "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhYSIsImlhdCI6MTY5MjUzNDQ5OCwiZXhwIjoxNjkyNjIwODk4fQ.QCzqmExKjoYkPeF8PFNlyZSQD5UNIdNg9j7KE7aW0N0");
+
+        HttpEntity<Flight> entity = new HttpEntity<>(flight, responseHeaders);
+
+        restTemplate.postForObject(mockUrl, entity, Flight.class);
 
 
         log.info("Get Data and Save " + flight.getId());

@@ -44,8 +44,8 @@ public class SecurityConfiguration {
                         "/configuration/security",
                         "/swagger-ui/**",
                         "/webjars/**",
-                        "/swagger-ui.html"
-                        //"/api/flights/ornek"
+                        "/swagger-ui.html",
+                        "/api/auth/**"
                 )
                 .permitAll()
 
