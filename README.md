@@ -13,7 +13,7 @@ The application has 3 apis
 * FlightAPI
 * AirportAPI
 * AuthenticationAPI
-* 
+  
 ```html
 POST /api/airports - creates a new airport
 GET /api/airports/{airportId} - retrieves an airport
